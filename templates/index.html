@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>German Speech-to-Text</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for GitHub-like documentation */
+        .prose {
+            max-width: 65ch;
+            margin: 0 auto;
+        }
+        .prose h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .prose ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+        }
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <header class="bg-blue-600 text-white py-6">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold">German Speech-to-Text</h1>
+            <p class="mt-2 text-lg">A browser-based application for transcribing German audio with advanced linguistic features.</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Upload Form -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Upload Audio</h2>
+            <p class="text-gray-600 mb-4">Upload an MP3, MP4, or WAV file to transcribe German speech. MP3 and MP4 are preferred, with WAV as a fallback.</p>
+            <form method="post" enctype="multipart/form-data" action="/transcribe" class="space-y-4">
+                <div>
+                    <input type="file" name="audio" accept=".mp3,.mp4,.wav" required class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                </div>
+                <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition">Transcribe</button>
+            </form>
+        </section>
+
+        <!-- Transcription Output -->
+        {% if transcription %}
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Transcription</h2>
+            <div class="border-l-4 border-blue-600 pl-4">
+                <p class="text-gray-800">{{ transcription }}</p>
+            </div>
+            <div class="mt-4">
+                <a href="/download_transcription" download="transcription.txt" class="inline-block bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition">Download Transcription</a>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Error Message -->
+        {% if error %}
+        <section class="bg-red-50 rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-red-700 mb-4">Error</h2>
+            <p class="text-red-600">{{ error }}</p>
+        </section>
+        {% endif %}
+
+        <!-- Documentation Sections -->
+        <div class="prose">
+            <h2>About</h2>
+            <p>This German Speech-to-Text (STT) application provides accurate transcription of German audio files (MP3, MP4, WAV) with specialized handling of German linguistic features. Designed for browser-based access, it processes audio files to deliver transcriptions that respect German grammar and orthography, making it ideal for educational, professional, or personal use.</p>
+
+            <h2>Features</h2>
+            <ul>
+                <li><strong>Correct Capitalization of Common Nouns</strong>: Automatically capitalizes German nouns (e.g., "Bücher", "Musik") to adhere to German grammar rules.</li>
+                <li><strong>Umlaut Transcription</strong>: Accurately transcribes German umlauts (ä, ö, ü) for precise text output.</li>
+                <li><strong>Eszett (ß) Support</strong>: Properly handles the German sharp S (ß) in transcriptions.</li>
+                <li><strong>Verbalized Punctuation Handling</strong>: Converts spoken punctuation (e.g., "Ausrufezeichen" to "!") into correct symbols.</li>
+                <li><strong>Multi-Format Support</strong>: Accepts MP3, MP4, and WAV files, with robust audio extraction for videos.</li>
+                <li><strong>Long Audio Processing</strong>: Supports audio files longer than 30 seconds with reliable transcription.</li>
+                <li><strong>Downloadable Transcriptions</strong>: Allows users to download transcriptions as text files for offline use.</li>
+            </ul>
+
+            <h2>Technologies Used</h2>
+            <ul>
+                <li><strong>Flask</strong>: A lightweight Python web framework for building the browser-based interface.</li>
+                <li><strong>Whisper (Hugging Face Transformers)</strong>: An automatic speech recognition model for transcribing German audio with support for umlauts and eszett.</li>
+                <li><strong>torchaudio</strong>: A PyTorch library for loading and processing MP3 and WAV audio files.</li>
+                <li><strong>moviepy</strong>: A Python library for extracting audio from MP4 video files.</li>
+                <li><strong>Tailwind CSS</strong>: A utility-first CSS framework for a modern, responsive design.</li>
+                <li><strong>Vercel</strong>: A serverless platform for deploying the application with global accessibility.</li>
+            </ul>
+        </div>
+    </main>
+
+</body>
+</html>
